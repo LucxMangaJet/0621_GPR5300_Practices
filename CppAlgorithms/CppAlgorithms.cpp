@@ -31,7 +31,7 @@ int main()
 
 	//normalize tests
 	float arr[6] = { -2,-1,0,0.5f,1,2 };
-	normalizeArray(arr,6);
+	normalizeArray(arr, 6);
 	std::cout << "normalizeArray C result: (";
 	for (size_t i = 0; i < 6; i++)
 		std::cout << arr[i] << ", ";
@@ -56,7 +56,7 @@ int main()
 	const char* msg = "Hello World!";
 	const char* hex = toHex((char*)msg, 13);
 
-	std::cout << msg << " expected 48656C6C6F20576F726C642100 got " << (hex == nullptr? "nullptr" : hex) << std::endl;
+	std::cout << msg << " expected 48656C6C6F20576F726C642100 got " << (hex == nullptr ? "nullptr" : hex) << std::endl;
 
 	int i;
 	std::cin >> i;
@@ -73,7 +73,7 @@ const int getMinimum(int arr[], int length)
 		int val = *(arr + i);
 		//same as int val = arr[i];
 
-		if(val < min)
+		if (val < min)
 			min = val;
 	}
 	return min;
@@ -84,11 +84,11 @@ const int getMinimum(std::vector<int>* list)
 	int min = INT32_MAX;
 
 	// version 1, treating vector like a c array	
-	for(int i = 0; i < list->size(); i++)
+	for (int i = 0; i < list->size(); i++)
 	{
-		int val = *((&list->front())+i);
+		int val = *((&list->front()) + i);
 
-		if(val > min)
+		if (val > min)
 			min = val;
 	}
 
@@ -96,15 +96,15 @@ const int getMinimum(std::vector<int>* list)
 	for (auto it = list->begin(); it != list->end(); ++it)
 	{
 		int val = *it;
-		if(val < min)
+		if (val < min)
 			min = val;
 	}
 
 	//version 3: "for each" veriant
 	for (const auto& val : *list)
 	{
-			if(val < min)
-				min = val;
+		if (val < min)
+			min = val;
 	}
 
 	return min;
@@ -118,25 +118,26 @@ void normalizeArray(float* arr, int length)
 {
 	for (int i = 0; i < length; i++)
 	{
-			if(arr[i] < -1)
-				arr[i] = -1;
+		if (arr[i] < -1)
+			arr[i] = -1;
 
-			if(arr[i] >1)
-				arr[i] = 1;
+		if (arr[i] > 1)
+			arr[i] = 1;
 	}
 }
 
 void normalizeArray(std::vector<float>* listPtr)
 {
-	std::vector<float> list = *listPtr;
 
-	for (int i = 0; i < list.size(); i++)
+	for (int i = 0; i < listPtr->size(); i++)
 	{
-			if(list[i] < -1)
-				list[i] = -1;
+		float& value = listPtr->at(i);
 
-			if(list[i] >1)
-				list[i] = 1;
+		if (value < -1)
+			value = -1;
+
+		if (value > 1)
+			value = 1;
 	}
 }
 
@@ -145,10 +146,10 @@ void normalizeArray(std::vector<float>* listPtr)
 // C strings always end in a null terminator which has value: '\0'(char) or 0x00 (hex) or 0 (dec)
 int newstrlen(const char* str)
 {
-	int i =0;
+	int i = 0;
 	char current = str[0];
 
-	while(current) 
+	while (current)
 	{
 		i++;
 		current = str[i];
@@ -163,19 +164,19 @@ int newstrlen(std::string str)
 
 // converts a byte array to a C string Hex representation of it
 // for example "Hello" would become -> "48656C6C6F"
-static const char  hexDigits[16] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+static const char  hexDigits[16] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 
 const char* toHex(char* str, int length)
 {
-	char* arr = new char[length*2 +1];
+	char* arr = new char[length * 2 + 1];
 
 	for (size_t i = 0; str[i]; i++)
 	{
-		arr[2*i] =  hexDigits[(str[i] & 0xF0) >> 4];
-		arr[2*i+1] = hexDigits[str[i] & 0x0F];
+		arr[2 * i] = hexDigits[(str[i] & 0xF0) >> 4];
+		arr[2 * i + 1] = hexDigits[str[i] & 0x0F];
 	}
-		
-	arr[length*2] = 0x00; //null terminator, indicates string is finished
+
+	arr[length * 2] = 0x00; //null terminator, indicates string is finished
 	return arr;
 }
 
