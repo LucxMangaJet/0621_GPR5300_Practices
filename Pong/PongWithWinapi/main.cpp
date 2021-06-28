@@ -4,8 +4,6 @@
 
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
-#define clamp(v, minV, maxV) min(max(v,minV),maxV)
-
 
 
 LRESULT CALLBACK WndProc(
@@ -73,6 +71,8 @@ int WINAPI WinMain(
 		}
 		else
 		{
+			//Update Game Here
+
 			//Force a redraw
 			InvalidateRect(hWnd, NULL, TRUE);
 			UpdateWindow(hWnd);
@@ -85,6 +85,7 @@ int WINAPI WinMain(
 }
 
 
+int playPositionY = 0;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -97,7 +98,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE) PostQuitMessage(0);
-
+		if (wParam == 'W') playPositionY += 50;
+		if (wParam == 'S') playPositionY -= 50;
 		return 0;
 
 	case WM_KEYUP:
@@ -109,10 +111,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		// old GDI (Graphic Device Interface) painting
 		PAINTSTRUCT ps = {};
-		
+
 		BeginPaint(hWnd, &ps);
-		
-		//paint here
+
+		RECT r { 10 ,playPositionY, 100, 90 + playPositionY};
+		HBRUSH b = CreateSolidBrush(RGB(255, 255, 255));
+		FillRect(ps.hdc, &r, b);
+
 
 		EndPaint(hWnd, &ps);
 
